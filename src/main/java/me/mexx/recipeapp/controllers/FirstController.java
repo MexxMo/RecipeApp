@@ -8,8 +8,19 @@ public class FirstController {
 
     @GetMapping("/")
     public String hello() {
-        return "<h1>Приложение запущено</h1>" +
-                "<h3>Привет!</h3>";
+        return """
+                <!DOCTYPE HTML>
+                <html>
+                 <head>
+                   <meta charset="utf-8">
+                  <title>Начальная страница</title>
+                 </head>
+                 <body>
+                  <h1>Приложение запущено</h1>
+                  <p><a href="/info">Обо мне</a></p>\s
+                </body>
+                </html>
+                """;
     }
 
     @GetMapping("/info")
