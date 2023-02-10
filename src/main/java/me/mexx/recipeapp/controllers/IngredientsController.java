@@ -20,7 +20,7 @@ public class IngredientsController {
         return ResponseEntity.ok(ingredientService.save(ingredient));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping({"/{id}"})
     public ResponseEntity<Ingredient> getById(@PathVariable Long id) {
         return ResponseEntity.of(ingredientService.getById(id));
     }
@@ -30,7 +30,7 @@ public class IngredientsController {
         return ResponseEntity.ok(ingredientService.update(id, ingredient));
     }
 
-    @DeleteMapping("{/id}")
+    @DeleteMapping({"/{id}"})
     public ResponseEntity<Ingredient> delete(@PathVariable Long id) {
         return ResponseEntity.ok(ingredientService.delete(id));
     }

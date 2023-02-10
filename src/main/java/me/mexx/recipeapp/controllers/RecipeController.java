@@ -31,7 +31,7 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.update(id, recipe));
     }
 
-    @DeleteMapping("{/id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Recipe> delete(@PathVariable Long id) {
         return ResponseEntity.ok(recipeService.delete(id));
     }
