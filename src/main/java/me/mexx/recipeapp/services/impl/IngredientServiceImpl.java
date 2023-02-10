@@ -23,7 +23,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Ingredient save(Ingredient ingredient) {
-        if (!validationService.validate(ingredient)) {
+        if (validationService.validate(ingredient)) {
             throw new ValidationException(ingredient.toString());
         }
 
@@ -38,7 +38,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Ingredient update(Long id, Ingredient ingredient) {
-        if (!validationService.validate(ingredient)) {
+        if (validationService.validate(ingredient)) {
             throw new ValidationException(ingredient.toString());
         }
         return ingredients.replace(id, ingredient);
