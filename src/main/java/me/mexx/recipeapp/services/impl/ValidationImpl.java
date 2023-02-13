@@ -12,7 +12,7 @@ public class ValidationImpl implements ValidationService {
     public boolean validate(Recipe recipe) {
         return recipe != null &&
                 recipe.getName() != null &&
-                StringUtils.isEmpty(recipe.getName()) &&
+                !StringUtils.isEmpty(recipe.getName()) &&
                 recipe.getSteps() != null &&
                 recipe.getIngredients() != null &&
                 !recipe.getIngredients().isEmpty() &&
@@ -23,6 +23,6 @@ public class ValidationImpl implements ValidationService {
     public boolean validate(Ingredient ingredient) {
         return ingredient != null &&
                 ingredient.getName() != null &&
-                StringUtils.isEmpty(ingredient.getName());
+                !StringUtils.isEmpty(ingredient.getName());
     }
 }
