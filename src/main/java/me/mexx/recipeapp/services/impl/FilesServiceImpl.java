@@ -4,7 +4,7 @@ import me.mexx.recipeapp.services.FilesService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -39,7 +39,7 @@ public class FilesServiceImpl implements FilesService {
         }
     }
 
-
+@Override
     public boolean cleanRecipeDataFile() {
         Path path = Path.of(dataFilePath, recipeDataFileName);
         try {
@@ -72,7 +72,7 @@ public class FilesServiceImpl implements FilesService {
         }
     }
 
-
+@Override
     public boolean cleanIngredientDataFile() {
         Path path = Path.of(dataFilePath, ingredientDataFileName);
         try {
@@ -83,5 +83,16 @@ public class FilesServiceImpl implements FilesService {
             return false;
         }
     }
+
+    @Override
+    public File getRecipeFile() {
+        return new File(dataFilePath + "/" + recipeDataFileName);
+    }
+
+    @Override
+    public File getIngredientFile() {
+        return new File(dataFilePath + "/" + ingredientDataFileName);
+    }
+
 
 }
