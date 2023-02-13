@@ -4,6 +4,7 @@ import me.mexx.recipeapp.services.FilesService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,15 +14,15 @@ public class FilesServiceImpl implements FilesService {
     @Value("${path.to.data.files}")
     private String dataFilePath;
     @Value("${name.of.recipe.data.file}")
-    private String recipeDataFile;
+    private String recipeDataFileName;
     @Value("${name.of.ingredient.data.file}")
-    private String ingredientDataFile;
+    private String ingredientDataFileName;
 
     @Override
     public boolean saveRecipeToFile(String json) {
         try {
             cleanRecipeDataFile();
-            Files.writeString(Path.of(dataFilePath, recipeDataFile), json);
+            Files.writeString(Path.of(dataFilePath, recipeDataFileName), json);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,17 +33,18 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public String readRecipeFromFile() {
         try {
-            return Files.readString(Path.of(dataFilePath, recipeDataFile));
+            return Files.readString(Path.of(dataFilePath, recipeDataFileName));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Override
+
     public boolean cleanRecipeDataFile() {
+        Path path = Path.of(dataFilePath, recipeDataFileName);
         try {
-            Files.deleteIfExists(Path.of(dataFilePath, recipeDataFile));
-            Files.createFile(Path.of(dataFilePath, recipeDataFile));
+            Files.deleteIfExists(path);
+            Files.createFile(path);
             return true;
         } catch (IOException e) {
             return false;
@@ -53,7 +55,7 @@ public class FilesServiceImpl implements FilesService {
     public boolean saveIngredientToFile(String json) {
         try {
             cleanIngredientDataFile();
-            Files.writeString(Path.of(dataFilePath, ingredientDataFile), json);
+            Files.writeString(Path.of(dataFilePath, ingredientDataFileName), json);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,17 +66,18 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public String readIngredientFromFile() {
         try {
-            return Files.readString(Path.of(dataFilePath, ingredientDataFile));
+            return Files.readString(Path.of(dataFilePath, ingredientDataFileName));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Override
+
     public boolean cleanIngredientDataFile() {
+        Path path = Path.of(dataFilePath, ingredientDataFileName);
         try {
-            Files.deleteIfExists(Path.of(dataFilePath, ingredientDataFile));
-            Files.createFile(Path.of(dataFilePath, ingredientDataFile));
+            Files.deleteIfExists(path);
+            Files.createFile(path);
             return true;
         } catch (IOException e) {
             return false;

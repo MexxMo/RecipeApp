@@ -5,11 +5,9 @@ public interface FilesService {
 
     String readRecipeFromFile();
 
-    boolean cleanRecipeDataFile();
 
     boolean saveIngredientToFile(String json);
 
     String readIngredientFromFile();
 
-    boolean cleanIngredientDataFile();
 }
