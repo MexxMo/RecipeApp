@@ -38,8 +38,10 @@ public class IngredientServiceImpl implements IngredientService {
         if (!validationService.validate(ingredient)) {
             throw new ValidationException(ingredient.toString());
         }
+
+        Ingredient put = ingredients.put(idCounter++, ingredient);
         saveToFile();
-        return ingredients.put(idCounter++, ingredient);
+        return put;
     }
 
     @Override
@@ -53,14 +55,18 @@ public class IngredientServiceImpl implements IngredientService {
         if (!validationService.validate(ingredient)) {
             throw new ValidationException(ingredient.toString());
         }
+
+        Ingredient replace = ingredients.replace(id, ingredient);
         saveToFile();
-        return ingredients.replace(id, ingredient);
+        return replace;
     }
 
     @Override
     public Ingredient delete(Long id) {
+        Ingredient remove = ingredients.remove(id);
         saveToFile();
-        return ingredients.remove(id);
+        return remove;
+
     }
 
     @Override

@@ -67,20 +67,4 @@ public class FilesController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
-//        @PostMapping(value = "/import/ingredient", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ResponseEntity<Void> uploadIngredientFile(@RequestParam MultipartFile file) {
-//        filesService.cleanIngredientDataFile();
-//        File ingredientFile = filesService.getIngredientFile();
-//        try (BufferedInputStream bis = new BufferedInputStream(file.getInputStream());
-//             FileOutputStream fos = new FileOutputStream(ingredientFile);
-//             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
-//            byte[] buffer = new byte[1024];
-//            while (bis.read(buffer) > 0){
-//                bos.write(buffer);
-//            }
-//            return ResponseEntity.ok().build();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//    }
 }

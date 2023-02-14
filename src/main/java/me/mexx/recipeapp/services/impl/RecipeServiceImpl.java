@@ -50,17 +50,20 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe update(Long id, Recipe recipe) {
+
         if (!validationService.validate(recipe)) {
             throw new ValidationException(recipe.toString());
         }
+        Recipe recipe1 = recipes.replace(id, recipe);
         saveToFile();
-        return recipes.replace(id, recipe);
+        return recipe1;
     }
 
     @Override
     public Recipe delete(Long id) {
+        Recipe remove = recipes.remove(id);
         saveToFile();
-        return recipes.remove(id);
+        return remove;
     }
 
     @Override

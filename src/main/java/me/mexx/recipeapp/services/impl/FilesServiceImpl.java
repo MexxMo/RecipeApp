@@ -35,6 +35,7 @@ public class FilesServiceImpl implements FilesService {
         try {
             return Files.readString(Path.of(dataFilePath, recipeDataFileName));
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -68,6 +69,7 @@ public class FilesServiceImpl implements FilesService {
         try {
             return Files.readString(Path.of(dataFilePath, ingredientDataFileName));
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
