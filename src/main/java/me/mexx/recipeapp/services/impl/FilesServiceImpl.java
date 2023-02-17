@@ -40,7 +40,7 @@ public class FilesServiceImpl implements FilesService {
         }
     }
 
-@Override
+    @Override
     public boolean cleanRecipeDataFile() {
         Path path = Path.of(dataFilePath, recipeDataFileName);
         try {
@@ -74,7 +74,7 @@ public class FilesServiceImpl implements FilesService {
         }
     }
 
-@Override
+    @Override
     public boolean cleanIngredientDataFile() {
         Path path = Path.of(dataFilePath, ingredientDataFileName);
         try {
@@ -94,6 +94,15 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public File getIngredientFile() {
         return new File(dataFilePath + "/" + ingredientDataFileName);
+    }
+
+    @Override
+    public Path tempFile(String random) {
+        try {
+            return Files.createTempFile(Path.of(dataFilePath), "tempFile", random);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

@@ -1,6 +1,7 @@
 package me.mexx.recipeapp.services;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public interface FilesService {
     boolean saveRecipeToFile(String json);
@@ -19,4 +20,6 @@ public interface FilesService {
     File getRecipeFile();
 
     File getIngredientFile();
+
+    Path tempFile(String suffix);
 }

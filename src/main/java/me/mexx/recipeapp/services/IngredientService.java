@@ -2,7 +2,6 @@ package me.mexx.recipeapp.services;
 
 import me.mexx.recipeapp.model.Ingredient;
 
-
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,5 +14,5 @@ public interface IngredientService {
 
     Ingredient delete(Long id);
 
-    Map<Long,Ingredient> getAll();
+    Map<Long, Ingredient> getAll();
 }

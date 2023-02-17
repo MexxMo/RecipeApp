@@ -1,12 +1,12 @@
 package me.mexx.recipeapp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Setter
+@Getter
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 public class Recipe {
@@ -14,4 +14,21 @@ public class Recipe {
     private int cookingTime;
     private List<Ingredient> ingredients;
     private List<String> steps;
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(name).append("\n");
+        builder.append("Время приготовления: ").append(cookingTime).append(" минут\n");
+        builder.append("Ингредиенты:\n");
+        for (Ingredient ingredient : ingredients) {
+            builder.append("◦ ").append(ingredient).append("\n");
+        }
+        builder.append("Инструкция по приготовлению:\n");
+        for (int i = 0; i < steps.size(); i++) {
+            builder.append(i + 1).append(" - ").append(steps.get(i)).append("\n");
+        }
+        return builder.toString();
+    }
 }
+

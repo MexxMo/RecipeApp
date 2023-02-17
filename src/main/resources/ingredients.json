@@ -1,12 +1,22 @@
 {
   "1": {
-    "count": 0,
-    "measureUnit": "string",
-    "name": "string"
+    "name": "Творог",
+    "count": 350,
+    "measureUnit": "г."
   },
   "2": {
-    "count": 0,
-    "measureUnit": "string",
-    "name": "string"
+    "name": "Куриное яйцо",
+    "count": 2,
+    "measureUnit": "шт."
+  },
+  "3": {
+    "name": "Пшеничная мука",
+    "count": 6,
+    "measureUnit": "ст.л."
+  },
+  "4": {
+    "name": "Сахар",
+    "count": 2,
+    "measureUnit": "ст.л."
   }
 }

@@ -3,6 +3,7 @@ package me.mexx.recipeapp.services.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import me.mexx.recipeapp.exception.ValidationException;
 import me.mexx.recipeapp.model.Recipe;
 import me.mexx.recipeapp.services.FilesService;
@@ -11,22 +12,29 @@ import me.mexx.recipeapp.services.ValidationService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
 
 @Service
+@RequiredArgsConstructor
 public class RecipeServiceImpl implements RecipeService {
     private final ValidationService validationService;
     private static long idCounter = 1;
     private final FilesService filesService;
     private Map<Long, Recipe> recipes = new TreeMap<>();
 
-    public RecipeServiceImpl(ValidationService validationService, FilesService filesService) {
-        this.validationService = validationService;
-        this.filesService = filesService;
-    }
+//    @Value("${path.to.data.files}")
+//    private String dataFilePath;
+//    @Value("${name.of.recipe.txt.file}")
+//    private String recipeTxtFileName;
+//
 
     @PostConstruct
     private void init() {
@@ -50,7 +58,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe update(Long id, Recipe recipe) {
-
         if (!validationService.validate(recipe)) {
             throw new ValidationException(recipe.toString());
         }
@@ -71,6 +78,18 @@ public class RecipeServiceImpl implements RecipeService {
         return recipes;
     }
 
+    @Override
+    public Path recipeTxtFile() throws IOException {
+        Path path = filesService.tempFile("recipes");
+        for (Recipe recipe : recipes.values()) {
+            try (Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND)) {
+                writer.append(recipe.toString());
+                writer.append("\n");
+            }
+        }
+        return path;
+    }
+
     private void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(recipes);
@@ -89,4 +108,27 @@ public class RecipeServiceImpl implements RecipeService {
             e.printStackTrace();
         }
     }
+//    @Override
+//    public String recipetoString() {
+//        StringBuilder sb = new StringBuilder();
+//        int counter=0;
+//        for (Recipe recipe : recipes.values()){
+//            sb.append("\n").append(recipe.toString()).append("\n");
+//            sb.append("\nИнгредиенты:\n");
+//            for (Ingredient ingredient : recipe.getIngredients()){
+//                sb.append("counter++").append(ingredient.toString()).append("\n");
+//            }
+//
+//        sb.append("\nИнструкция\n");
+//            for (String step :recipe.getSteps()) {
+//            sb.append(" ").append(step).append("\n");
+//        }
+//        }
+//        return sb.toString();
+//    }
+
+//    @Override
+//    public File recipeTxt() throws IOException {
+//        return filesService.saveToFile(recipes.toString(), Path.of(dataFilePath, recipeTxtFileName)).toFile();
+//    }
 }

@@ -1,5 +1,6 @@
 package me.mexx.recipeapp.controllers;
 
+
 import me.mexx.recipeapp.services.FilesService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.InputStreamResource;
@@ -57,8 +58,7 @@ public class FilesController {
     public ResponseEntity<Void> uploadIngredientFile(@RequestParam MultipartFile file) {
         filesService.cleanIngredientDataFile();
         File ingredientFile = filesService.getIngredientFile();
-        try (
-                FileOutputStream fos = new FileOutputStream(ingredientFile)) {
+        try (FileOutputStream fos = new FileOutputStream(ingredientFile)) {
             IOUtils.copy(file.getInputStream(), fos);
             return ResponseEntity.ok().build();
         } catch (IOException e) {
@@ -66,5 +66,6 @@ public class FilesController {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+
 
 }
