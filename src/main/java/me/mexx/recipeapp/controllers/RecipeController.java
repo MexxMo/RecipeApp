@@ -4,18 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import me.mexx.recipeapp.model.Recipe;
 import me.mexx.recipeapp.services.RecipeService;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Map;
 
 @RestController
@@ -27,13 +21,9 @@ import java.util.Map;
         @ApiResponse(responseCode = "404", description = "URL неверный или такого действия нет в веб-приложении."),
         @ApiResponse(responseCode = "500", description = "Во время выполнения запроса произошла ошибка на сервере.")
 })
+@RequiredArgsConstructor
 public class RecipeController {
     private final RecipeService recipeService;
-
-
-    public RecipeController(RecipeService recipeService) {
-        this.recipeService = recipeService;
-    }
 
     @PostMapping
     @Operation(summary = "Сохранение рецепта")
@@ -66,23 +56,6 @@ public class RecipeController {
     @Operation(summary = "Получение всех рецептов")
     public ResponseEntity<Map<Long, Recipe>> getAll() {
         return ResponseEntity.ok(recipeService.getAll());
-    }
-
-    @GetMapping(value = "export")
-    @Operation(summary = "Экспорт рецептов в файл .txt")
-    public ResponseEntity<Object> getRecipeTxtFile() {
-        try {
-            Path path = recipeService.recipeTxtFile();
-            InputStreamResource resource = new InputStreamResource(new FileInputStream(path.toFile()));
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .contentLength(Files.size(path))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"Recipes.txt\"")
-                    .body(resource);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }return ResponseEntity.internalServerError().build();
-
     }
 
 }

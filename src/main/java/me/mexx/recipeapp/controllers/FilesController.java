@@ -1,7 +1,13 @@
 package me.mexx.recipeapp.controllers;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import me.mexx.recipeapp.services.FilesService;
+import me.mexx.recipeapp.services.RecipeService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -12,17 +18,25 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 
 @RestController
 @RequestMapping("/files")
+@Tag(name = "API для работы с файлами")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Всё хорошо, запрос выполнился."),
+        @ApiResponse(responseCode = "400", description = "Есть ошибка в параметрах запроса."),
+        @ApiResponse(responseCode = "404", description = "URL неверный или такого действия нет в веб-приложении."),
+        @ApiResponse(responseCode = "500", description = "Во время выполнения запроса произошла ошибка на сервере.")
+})
+@RequiredArgsConstructor
 public class FilesController {
 
     private final FilesService filesService;
+    private final RecipeService recipeService;
 
-    public FilesController(FilesService filesService) {
-        this.filesService = filesService;
-    }
 
 
     @GetMapping(value = "/export/recipe", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,5 +81,22 @@ public class FilesController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
+    @GetMapping(value = "export/recipe/txt")
+    @Operation(summary = "Экспорт рецептов в файл .txt")
+    public ResponseEntity<Object> getRecipeTxtFile() {
+        try {
+            Path path = recipeService.recipeTxtFile();
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(path.toFile()));
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .contentLength(Files.size(path))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"Recipes.txt\"")
+                    .body(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.internalServerError().build();
+
+    }
 
 }

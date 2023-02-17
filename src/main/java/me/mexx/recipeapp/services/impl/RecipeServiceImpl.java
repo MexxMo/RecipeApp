@@ -30,11 +30,6 @@ public class RecipeServiceImpl implements RecipeService {
     private final FilesService filesService;
     private Map<Long, Recipe> recipes = new TreeMap<>();
 
-//    @Value("${path.to.data.files}")
-//    private String dataFilePath;
-//    @Value("${name.of.recipe.txt.file}")
-//    private String recipeTxtFileName;
-//
 
     @PostConstruct
     private void init() {
