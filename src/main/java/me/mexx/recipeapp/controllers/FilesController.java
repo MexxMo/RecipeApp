@@ -40,6 +40,7 @@ public class FilesController {
 
 
     @GetMapping(value = "/export/recipe", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Экспорт рецептов в файл .json")
     public ResponseEntity<InputStreamResource> downloadRecipe() throws FileNotFoundException {
         File recipeFile = filesService.getRecipeFile();
         if (recipeFile.exists()) {
@@ -54,6 +55,7 @@ public class FilesController {
     }
 
     @PostMapping(value = "/import/recipe", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Импорт рецептов из файла .json")
     public ResponseEntity<Void> uploadRecipeFile(@RequestParam MultipartFile file) {
         filesService.cleanRecipeDataFile();
         File recipeFile = filesService.getRecipeFile();
@@ -69,6 +71,7 @@ public class FilesController {
     }
 
     @PostMapping(value = "/import/ingredient", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Импорт ингредиентов из файла .json")
     public ResponseEntity<Void> uploadIngredientFile(@RequestParam MultipartFile file) {
         filesService.cleanIngredientDataFile();
         File ingredientFile = filesService.getIngredientFile();
@@ -86,6 +89,7 @@ public class FilesController {
     public ResponseEntity<Object> getRecipeTxtFile() {
         try {
             Path path = recipeService.recipeTxtFile();
+
             InputStreamResource resource = new InputStreamResource(new FileInputStream(path.toFile()));
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)

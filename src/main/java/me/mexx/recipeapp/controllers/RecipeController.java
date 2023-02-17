@@ -27,8 +27,6 @@ public class RecipeController {
 
     @PostMapping
     @Operation(summary = "Сохранение рецепта")
-    @ApiResponse(responseCode = "200",
-            description = "Рецепт сохранен")
     public ResponseEntity<Recipe> save(@RequestBody Recipe recipe) {
         return ResponseEntity.ok(recipeService.save(recipe));
     }
@@ -47,7 +45,6 @@ public class RecipeController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление рецепта по ID")
-
     public ResponseEntity<Recipe> delete(@PathVariable Long id) {
         return ResponseEntity.ok(recipeService.delete(id));
     }
