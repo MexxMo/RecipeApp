@@ -86,13 +86,13 @@ public class FilesController {
 
     @GetMapping(value = "export/recipe/txt")
     @Operation(summary = "Экспорт рецептов в файл .txt")
-    public ResponseEntity<Object> getRecipeTxtFile() {
+    public ResponseEntity<InputStreamResource> getRecipeTxtFile() {
         try {
             Path path = recipeService.recipeTxtFile();
 
             InputStreamResource resource = new InputStreamResource(new FileInputStream(path.toFile()));
             return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .contentType(MediaType.TEXT_PLAIN)
                     .contentLength(Files.size(path))
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"Recipes.txt\"")
                     .body(resource);

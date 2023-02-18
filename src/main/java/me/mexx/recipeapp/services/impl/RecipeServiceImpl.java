@@ -28,12 +28,18 @@ public class RecipeServiceImpl implements RecipeService {
     private final ValidationService validationService;
     private static long idCounter = 1;
     private final FilesService filesService;
+
     private Map<Long, Recipe> recipes = new TreeMap<>();
 
 
     @PostConstruct
     private void init() {
-        readFromFile();
+        try {
+            readFromFile();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -76,8 +82,8 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Path recipeTxtFile() throws IOException {
         Path path = filesService.tempFile("recipes");
-        for (Recipe recipe : recipes.values()) {
-            try (Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND)) {
+        try (Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND)) {
+            for (Recipe recipe : recipes.values()) {
                 writer.append(recipe.toString());
                 writer.append("\n");
             }
@@ -103,27 +109,5 @@ public class RecipeServiceImpl implements RecipeService {
             e.printStackTrace();
         }
     }
-//    @Override
-//    public String recipetoString() {
-//        StringBuilder sb = new StringBuilder();
-//        int counter=0;
-//        for (Recipe recipe : recipes.values()){
-//            sb.append("\n").append(recipe.toString()).append("\n");
-//            sb.append("\nИнгредиенты:\n");
-//            for (Ingredient ingredient : recipe.getIngredients()){
-//                sb.append("counter++").append(ingredient.toString()).append("\n");
-//            }
-//
-//        sb.append("\nИнструкция\n");
-//            for (String step :recipe.getSteps()) {
-//            sb.append(" ").append(step).append("\n");
-//        }
-//        }
-//        return sb.toString();
-//    }
 
-//    @Override
-//    public File recipeTxt() throws IOException {
-//        return filesService.saveToFile(recipes.toString(), Path.of(dataFilePath, recipeTxtFileName)).toFile();
-//    }
 }
