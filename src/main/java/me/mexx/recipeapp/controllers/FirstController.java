@@ -1,4 +1,5 @@
 package me.mexx.recipeapp.controllers;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -6,20 +7,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class FirstController {
 
-    @GetMapping("/")
+    @GetMapping()
     public String hello() {
         return """
-                <!DOCTYPE HTML>
-                <html>
-                 <head>
-                   <meta charset="utf-8">
+                              
                   <title>Начальная страница</title>
-                 </head>
-                 <body>
+                                
                   <h1>Приложение запущено</h1>
                   <p><a href="/info">Обо мне</a></p>\s
-                </body>
-                </html>
+                               
                 """;
     }
 
@@ -27,13 +23,9 @@ public class FirstController {
 
     public String info() {
         return """
-                <!DOCTYPE HTML>
-                <html>
-                 <head>
-                  <meta charset="utf-8">
+                                
                   <title>Информация</title>
-                 </head>
-                 <body>
+                                
                   <h1 style="color:blue">Информация</h1>
                 <ul>
                 <li>Имя ученика: Губайдуллин Ильдар</li>\s
@@ -41,9 +33,8 @@ public class FirstController {
                 <li>Дата создания проекта: 31.01.2023</li>\s
                 <li>Описание проекта: Описание</li>\s
                 </ul>
-                 </body>
-                </html>
+                                
                 """;
-    } // правильно или нет, не знаю, но работает)
+    }
 
 }
